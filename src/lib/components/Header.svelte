@@ -45,7 +45,7 @@
     </div>
 
     <div class="flex-1">
-      <a class="btn btn-ghost normal-case text-xl" href="/">{companyName}</a>
+      <a class="btn btn-ghost normal-case text-xl" href="/">💧{companyName}</a>
     </div>
     <div class="flex-none">
         <div class="hidden md:flex">
