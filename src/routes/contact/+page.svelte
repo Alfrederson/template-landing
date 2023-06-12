@@ -17,6 +17,8 @@
     async function sendContact(){
         if(busy)
             return;
+        success=false
+        error  =""
         busy = true
         let result = await fetch(URL,{
             method : 'POST',
@@ -27,8 +29,12 @@
             redirect: "follow"
         })
         if(result.status !== 200){
-            let errorObj = await result.json()
-            error = errorObj.err ?? "Something went wrong. Try again later."
+            try{
+                let errorObj = await result.json()
+                error = errorObj.err ?? "Something went wrong. Try again later."
+            }catch(e){
+                console.log(e)
+            }
             busy = false
             return
         }
@@ -38,24 +44,38 @@
 </script>
 
 <div class="w-full max-w-xl mx-auto min-h-screen">
-    <form on:submit|preventDefault={sendContact}>
-        <div class="w-full form-control p-3">
-            <input type="text" class="input form-control input-bordered" bind:value={form.name} placeholder="Name"/>
-        </div>  
-        <div class="w-full form-control p-3">
-            <input type="text" class="input  input-bordered" bind:value={form.email} placeholder="E-mail"/>
+    {#if error}
+        <div class="alert w-full justify-center bg-error p-3 mx-auto">
+            {error}
         </div>
-        <div class="w-full form-control p-3">
-            <textarea class="textarea textarea-bordered w-full" bind:value={form.message} placeholder="Write us a message"/>
+    {/if}
+    {#if success}
+        <div class="alert w-full justify-center bg-success p-3 mx-auto">
+            <h1>Your message was received!</h1>
         </div>
-        <div class="p-3">
-            <label class="label cursor-pointer justify-start">
-                <input type="checkbox" class="checkbox" />
-                <span class="label-text mx-3">By checking this box, I agree to receiving a response in my e-mail.</span> 
-            </label>
-        </div>
-        <div class="w-full form-control p-3">
-            <input type="submit" class="btn btn-secondary"/>
-        </div>
-    </form>
+    {/if}
+    {#if !success}
+        <form on:submit|preventDefault={sendContact}>
+            <fieldset disabled={busy}>
+                <div class="w-full form-control p-3">
+                    <input type="text" class="input form-control input-bordered" required bind:value={form.name} placeholder="Name"/>
+                </div>  
+                <div class="w-full form-control p-3">
+                    <input type="text" class="input  input-bordered" required bind:value={form.email} placeholder="E-mail"/>
+                </div>
+                <div class="w-full form-control p-3">
+                    <textarea class="textarea textarea-bordered w-full" required bind:value={form.message} placeholder="Write us a message"/>
+                </div>
+                <div class="p-3">
+                    <label class="label cursor-pointer justify-start">
+                        <input type="checkbox" class="checkbox" required/>
+                        <span class="label-text mx-3">By checking this box, I agree to receiving a response in my e-mail.</span> 
+                    </label>
+                </div>
+                <div class="w-full form-control p-3">
+                    <input type="submit" class="btn btn-secondary"/>
+                </div>
+            </fieldset>
+        </form>
+    {/if}
 </div>
