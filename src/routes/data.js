@@ -6,5 +6,5 @@ const
 export { 
     companyName,
     companyEst,
-    currentDate
+    currentDate,
 }
