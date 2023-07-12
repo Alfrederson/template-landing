@@ -18,17 +18,12 @@
 
 </script>
 
-<style>
-    :global(body) {
-        overflow-x: hidden;
-        min-height: 100vh;;
-    }
-</style>
-
 <svelte:head>
     <title>{companyName}</title>
 </svelte:head>
 
 <Header {companyName}/>
-<slot />
+<div style="overflow-x:hidden;">
+    <slot />
+</div>
 <Footer {companyName} {companyEst} />
