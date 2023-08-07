@@ -20,6 +20,8 @@
 
 <svelte:head>
     <title>{companyName}</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9754268803581055"
+    crossorigin="anonymous"></script>
 </svelte:head>
 
 <Header {companyName}/>
